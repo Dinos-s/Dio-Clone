@@ -3,7 +3,7 @@ import styled from "styled-components";
 export const Container = styled.div`
     width: 100%;
     max-width: 80%;
-    heigth: 47px;
+    height: 47px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -13,13 +13,13 @@ export const Container = styled.div`
 export const Row = styled.div`
     display: flex;
     flex-direction: row;
-    aling-items: center;
+    align-items: center;
 `;
 
 export const Column = styled.div`
     display: flex;
     flex-direction: column;
-    aling-items: center;
+    align-items: center;
 `;
 
 export const Wrapper = styled.div`
@@ -47,6 +47,7 @@ export const BuscarInputContainer = styled.div`
 export const Menu = styled.a`
     font-family: 'Open Sans';
     font-style: normal;
+    font-weight: 700;
     font-size: 12px;
     line-height: 25px;
     color: #FFFFFF;
