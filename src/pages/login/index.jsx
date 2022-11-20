@@ -2,6 +2,8 @@ import { useNavigate } from 'react-router-dom';
 import { MdEmail, MdLock } from "react-icons/md";
 import { Button } from '../../components/Button/index'
 import { Header } from '../../components/Header'
+import { yupResolver } from '@hookform/resolvers/yup'
+import * as yup from "yup";
 import { 
     Container, 
     Title, 
@@ -14,8 +16,21 @@ import {
     CriarText 
 } from './styles'
 import { Input } from '../../components/Input';
+import { useForm } from 'react-hook-form';
+
+const schema = yup.object({
+    email: yup.string().email('email inválido').required('Campo obrigatório'),
+    password: yup.string().min(6, 'pelo menos 6 caracters para senha').required('Campo obrigatório'),
+}).required();
 
 const Login = () => {
+
+    const {control, handleSubmit, formState: {errors, isValid}} = useForm({
+        resolver: yupResolver(schema),
+        mode: 'onChange',
+    });
+    console.log(isValid, errors);
+    const onSubmit = data => console.log(data);
 
     const navigate = useNavigate();
     const handleClickSignIn = () => {
@@ -35,10 +50,10 @@ const Login = () => {
                 <Wrapper>
                     <TitleLogin>Faça o seu cadastro</TitleLogin>
                     <Subtitlelogin>Faça o seu login e make the change</Subtitlelogin>
-                    <form>
-                        <Input placeholder='E-mail' leftIcon={<MdEmail/>}/>
-                        <Input type='password' placeholder='Senha' leftIcon={<MdLock/>}/>
-                        <Button title='Entrar' variant='secondary' onClick={handleClickSignIn} type='button'/>
+                    <form onSubmit={handleSubmit(onSubmit)}>
+                        <Input  name="email" errorMessage={errors?.email?.message} control={control} placeholder='E-mail' leftIcon={<MdEmail/>}/>
+                        <Input name="password" errorMessage={errors?.password?.message} control={control} type='password' placeholder='Senha' leftIcon={<MdLock/>}/>
+                        <Button title='Entrar' variant='secondary' type='submit'/>
                     </form>
                     <Row>
                         <EsqueciText>Esqueci minha senha</EsqueciText>

@@ -20,4 +20,10 @@ export const InputText = styled.input`
     color: #FFFFFF;
     border: 0;
     height: 30px;
-`
+`;
+
+export const ErrorText = styled.p`
+    color: #FFB000;
+    font-size: 12px;
+    margin: 5px 0;
+`;
