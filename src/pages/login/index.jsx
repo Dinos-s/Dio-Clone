@@ -4,6 +4,7 @@ import { Button } from '../../components/Button/index'
 import { Header } from '../../components/Header'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from "yup";
+import { api } from "../../services/api";
 import { 
     Container, 
     Title, 
@@ -25,17 +26,26 @@ const schema = yup.object({
 
 const Login = () => {
 
-    const {control, handleSubmit, formState: {errors, isValid}} = useForm({
+    const navigate = useNavigate();
+
+    const {control, handleSubmit, formState: { errors }} = useForm({
         resolver: yupResolver(schema),
         mode: 'onChange',
     });
-    console.log(isValid, errors);
-    const onSubmit = data => console.log(data);
+    const onSubmit = async formData => {
+        try {
+            const {data} = await api.get(`users?email=${formData.email}&senha=${formData.password}`)
+            if(data.length === 1){
+                navigate('/feed')
+            } else(
+                alert('Email ou senha inválido(s)')
+            )
+        } catch (error) {
+            alert('Tente novamente')
+        }
+    };
 
-    const navigate = useNavigate();
-    const handleClickSignIn = () => {
-        navigate('/feed')
-    }
+    console.log("errors", errors);
 
     return(<>
         <Header/>
