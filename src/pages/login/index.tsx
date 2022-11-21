@@ -18,6 +18,7 @@ import {
 } from './styles'
 import { Input } from '../../components/Input';
 import { useForm } from 'react-hook-form';
+import { IformData } from './types';
 
 const schema = yup.object({
     email: yup.string().email('email inválido').required('Campo obrigatório'),
@@ -28,11 +29,11 @@ const Login = () => {
 
     const navigate = useNavigate();
 
-    const {control, handleSubmit, formState: { errors }} = useForm({
+    const {control, handleSubmit, formState: { errors }} = useForm<IformData>({
         resolver: yupResolver(schema),
         mode: 'onChange',
     });
-    const onSubmit = async formData => {
+    const onSubmit = async (formData: IformData) => {
         try {
             const {data} = await api.get(`users?email=${formData.email}&senha=${formData.password}`)
             if(data.length === 1){
@@ -61,7 +62,7 @@ const Login = () => {
                     <TitleLogin>Faça o seu cadastro</TitleLogin>
                     <Subtitlelogin>Faça o seu login e make the change</Subtitlelogin>
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <Input  name="email" errorMessage={errors?.email?.message} control={control} placeholder='E-mail' leftIcon={<MdEmail/>}/>
+                        <Input  name="email" placeholder='E-mail' leftIcon={<MdEmail/>} control={control}/>
                         <Input name="password" errorMessage={errors?.password?.message} control={control} type='password' placeholder='Senha' leftIcon={<MdLock/>}/>
                         <Button title='Entrar' variant='secondary' type='submit'/>
                     </form>

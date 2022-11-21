@@ -11,8 +11,9 @@ import {
     UserPicture
 } from "./styles";
 import { Button } from "../Button";
+import { IHeader } from "./types";
 
-export const Header = ({autenticado}) => {
+export const Header = ({autenticado}: IHeader) => {
     return(<>
         <Wrapper>
             <Container>
