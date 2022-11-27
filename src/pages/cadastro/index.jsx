@@ -1,30 +1,32 @@
-import { useNavigate } from 'react-router-dom';
-import { MdEmail, MdLock } from "react-icons/md";
-import { Button } from '../../components/Button/index'
-import { Header } from '../../components/Header'
-import { yupResolver } from '@hookform/resolvers/yup'
+import { yupResolver } from "@hookform/resolvers/yup"
 import * as yup from "yup";
-import { api } from "../../services/api";
+import { useForm } from "react-hook-form"
+import { MdEmail, MdLock, MdPerson } from "react-icons/md"
+import { useNavigate } from "react-router-dom"
+import { Button } from "../../components/Button"
+import { Header } from "../../components/Header"
+import { Input } from "../../components/Input"
+import { api } from "../../services/api"
 import { 
-    Container, 
-    Title, 
+    Btn,
     Column, 
-    Wrapper, 
-    TitleLogin, 
-    Subtitlelogin, 
+    Container, 
+    InfoText, 
+    InfoTextLogin, 
     Row, 
-    EsqueciText, 
-    CriarText 
-} from './styles'
-import { Input } from '../../components/Input';
-import { useForm } from 'react-hook-form';
+    Subtitlelogin, 
+    Title, 
+    TitleLogin, 
+    Wrapper 
+} from "./styles"
 
 const schema = yup.object({
+    name: yup.string().required('Campo obrigatório'),
     email: yup.string().email('email inválido').required('Campo obrigatório'),
     password: yup.string().min(6, 'pelo menos 6 caracters para senha').required('Campo obrigatório'),
 }).required();
 
-const Login = () => {
+export const Cadastro  = () => {
 
     const navigate = useNavigate();
 
@@ -51,28 +53,30 @@ const Login = () => {
         <Header/>
         <Container>
             <Column>
-                <Title>
-                A plataforma para você aprender com experts, dominar as principais tecnologias
-                 e entrar mais rápido nas empresas mais desejadas.
-                </Title>
+                <Title>A plataforma para você aprender com experts, dominar as principais tecnologias
+                 e entrar mais rápido nas empresas mais desejadas.</Title>
             </Column>
             <Column>
                 <Wrapper>
-                    <TitleLogin>Faça o seu login</TitleLogin>
-                    <Subtitlelogin>Faça o seu login e make the change</Subtitlelogin>
+                    <TitleLogin>Faça o seu cadastro</TitleLogin>
+                    <Subtitlelogin>Faça o seu cadastro e make the change</Subtitlelogin>
                     <form onSubmit={handleSubmit(onSubmit)}>
+                        <Input  name="nome" errorMessage={errors?.name?.message} control={control} placeholder='Nome' leftIcon={<MdPerson/>}/>
                         <Input  name="email" errorMessage={errors?.email?.message} control={control} placeholder='E-mail' leftIcon={<MdEmail/>}/>
                         <Input name="password" errorMessage={errors?.password?.message} control={control} type='password' placeholder='Senha' leftIcon={<MdLock/>}/>
                         <Button title='Entrar' variant='secondary' type='submit'/>
                     </form>
                     <Row>
-                        <EsqueciText>Esqueci minha senha</EsqueciText>
-                        <CriarText>Criar Conta</CriarText>
+                        <InfoText>
+                            Ao clicar em "criar minha conta grátis",declaro que aceito as Políticas de Privacidade e os Termos de Uso da DIO.
+                        </InfoText>
+                        <InfoTextLogin>
+                            Já tenho conta. 
+                            <Btn>Fazer login </Btn>
+                        </InfoTextLogin>
                     </Row>
                 </Wrapper>
             </Column>
         </Container>
     </>)
 }
-
-export { Login }
